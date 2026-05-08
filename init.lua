@@ -610,7 +610,7 @@ require('lazy').setup({
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
-        --
+
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
 
@@ -806,20 +806,38 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
+    'catppuccin/nvim',
+    name = 'catppuccin',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
+      require('catppuccin').setup {
+        flavour = 'mocha',
+        no_italic = true,
+        integrations = {
+          mini = { enabled = true },
+          treesitter = true,
+          native_lsp = { enabled = true },
+          telescope = { enabled = true },
+          which_key = true,
+          gitsigns = true,
+          mason = true,
+          blink_cmp = true,
         },
       }
+      vim.cmd.colorscheme 'catppuccin-mocha'
 
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- Custom mode colors for mini.statusline.
+      local palette = require('catppuccin.palettes').get_palette 'mocha'
+      local mode_colors = {
+        MiniStatuslineModeNormal = { bg = '#8E354A', fg = palette.text },
+        MiniStatuslineModeInsert = { bg = '#FEDFE1', fg = palette.base },
+        MiniStatuslineModeVisual = { bg = '#9F353A', fg = palette.text },
+        MiniStatuslineModeReplace = { bg = '#B5495B', fg = palette.text },
+        MiniStatuslineModeCommand = { bg = '#D05A6E', fg = palette.text },
+      }
+      for group, attrs in pairs(mode_colors) do
+        vim.api.nvim_set_hl(0, group, { bg = attrs.bg, fg = attrs.fg, bold = true })
+      end
     end,
   },
 
