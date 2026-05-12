@@ -801,39 +801,20 @@ require('lazy').setup({
     },
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+  {
+    'nightsense/strawberry',
+    priority = 1000,
     config = function()
-      require('catppuccin').setup {
-        flavour = 'mocha',
-        no_italic = true,
-        integrations = {
-          mini = { enabled = true },
-          treesitter = true,
-          native_lsp = { enabled = true },
-          telescope = { enabled = true },
-          which_key = true,
-          gitsigns = true,
-          mason = true,
-          blink_cmp = true,
-        },
-      }
-      vim.cmd.colorscheme 'catppuccin-mocha'
+      vim.cmd.colorscheme 'strawberry-dark'
 
       -- Custom mode colors for mini.statusline.
-      local palette = require('catppuccin.palettes').get_palette 'mocha'
+      -- strawberry-dark palette: g0=#2b1d24 (base bg), g6=#f0dde6 (light pink text)
       local mode_colors = {
-        MiniStatuslineModeNormal = { bg = '#8E354A', fg = palette.text },
-        MiniStatuslineModeInsert = { bg = '#FEDFE1', fg = palette.base },
-        MiniStatuslineModeVisual = { bg = '#9F353A', fg = palette.text },
-        MiniStatuslineModeReplace = { bg = '#B5495B', fg = palette.text },
-        MiniStatuslineModeCommand = { bg = '#D05A6E', fg = palette.text },
+        MiniStatuslineModeNormal = { bg = '#8E354A', fg = '#f0dde6' },
+        MiniStatuslineModeInsert = { bg = '#FEDFE1', fg = '#2b1d24' },
+        MiniStatuslineModeVisual = { bg = '#9F353A', fg = '#f0dde6' },
+        MiniStatuslineModeReplace = { bg = '#B5495B', fg = '#f0dde6' },
+        MiniStatuslineModeCommand = { bg = '#D05A6E', fg = '#f0dde6' },
       }
       for group, attrs in pairs(mode_colors) do
         vim.api.nvim_set_hl(0, group, { bg = attrs.bg, fg = attrs.fg, bold = true })
