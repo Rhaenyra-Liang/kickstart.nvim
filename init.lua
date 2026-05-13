@@ -164,6 +164,14 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Filetype detection for extensions Neovim doesn't ship with
+vim.filetype.add {
+  extension = {
+    astro = 'astro',
+    mdx = 'markdown.mdx',
+  },
+}
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -715,6 +723,9 @@ require('lazy').setup({
         yaml = { 'prettierd', 'prettier', stop_after_first = true },
         markdown = { 'prettierd', 'prettier', stop_after_first = true },
         graphql = { 'prettierd', 'prettier', stop_after_first = true },
+        -- Astro: use plain prettier so it loads prettier-plugin-astro from
+        -- the project's local node_modules (prettierd's daemon can miss it).
+        astro = { 'prettier' },
       },
     },
   },
